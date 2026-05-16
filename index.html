@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Frontend Showcase</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Lottie Web Animation Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+</head>
+<body>
+  <!-- nav-->
+  <section class="shell category-switcher glass-card" aria-label="Přepínač kategorií">
+    <button class="category-tab is-active" type="button" data-category-target="gallery">Fotogalerie</button>
+    <button class="category-tab" type="button" data-category-target="calendar">Kalendář</button>
+    <button class="category-tab" type="button" data-category-target="tictactoe">Piškvorky</button>
+    <button class="category-tab" type="button" data-category-target="lottery">EuroJackpot</button>
+    <button class="category-tab" type="button" data-category-target="form">Formulář</button>
+    <button class="category-tab" type="button" data-category-target="sudoku">Sudoku</button>
+    
+    <button id="themeToggleBtn" class="button tertiary theme-toggle-btn" type="button" aria-label="Přepnout motiv" title="Přepnout motiv">
+      <span id="themeToggleLottie" class="theme-toggle-lottie" aria-hidden="true"></span>
+    </button>
+  </section>
+
+  <main id="widgets" class="shell page-grid">
+    <!-- gallery -->
+    <section id="gallery" class="widget card-wide glass-card category-panel" data-category="gallery">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Fotogalerie</p>
+          <h2>Otevření v novém okně a slideshow</h2>
+        </div>
+        <button class="button tertiary" id="galleryShuffleBtn" type="button">Promíchat pořadí</button>
+      </div>
+      <p class="section-text">Kliknutí na fotku otevře samostatné okno s automatickým přepínáním po 1 sekundě a cyklickým návratem na začátek.</p>
+      <div class="gallery-grid" id="galleryGrid"></div>
+    </section>
+
+    <!-- calendar -->
+    <section class="widget glass-card calendar-widget category-panel" data-category="calendar" hidden>
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Kalendář</p>
+          <h2>Měsíční přehled</h2>
+        </div>
+        <div class="nav-group">
+          <button class="icon-button" id="calendarPrevBtn" type="button" aria-label="Předchozí měsíc">←</button>
+          <button class="button tertiary" id="calendarTodayBtn" type="button">Dnes</button>
+          <button class="icon-button" id="calendarNextBtn" type="button" aria-label="Další měsíc">→</button>
+        </div>
+      </div>
+      <div class="calendar-meta">
+        <strong id="calendarMonthLabel"></strong>
+      </div>
+      <div class="calendar-grid" id="calendarGrid" role="grid" aria-label="Měsíční kalendář"></div>
+    </section>
+
+    <!-- tictactoe -->
+    <section class="widget glass-card category-panel" data-category="tictactoe" hidden>
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Piškvorky</p>
+          <h2>Piškvorky</h2>
+        </div>
+        <button class="button tertiary" id="ticTacToeResetBtn" type="button">Nová hra</button>
+      </div>
+      <div class="tic-mode-selector">
+        <button class="mode-btn is-active" id="ticTacToeTwoPlayerBtn" type="button" data-mode="2player">2 Hráči</button>
+        <button class="mode-btn" id="ticTacToeBotBtn" type="button" data-mode="bot">Proti botovi</button>
+      </div>
+      <p class="section-text" id="ticTacToeStatus"></p>
+      <div class="tic-board" id="ticTacToeBoard"></div>
+    </section>
+
+    <!-- lottery -->
+    <section class="widget glass-card category-panel" data-category="lottery" hidden>
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">EuroJackpot</p>
+          <h2>Gamble</h2>
+        </div>
+        <button class="button tertiary" id="lotteryResetBtn" type="button">Nová hra</button>
+      </div>
+      <div id="lotteryGameContainer">
+        <div class="lottery-section">
+          <h3>Vaše tipovaná čísla</h3>
+          <div class="lottery-input-group">
+            <div>
+              <p class="input-label">Hlavní čísla (5 z 50):</p>
+              <div class="number-grid" id="lotteryMainInput"></div>
+            </div>
+            <div>
+              <p class="input-label">Euro čísla (2 z 11):</p>
+              <div class="number-grid" id="lotteryEuroInput"></div>
+            </div>
+          </div>
+          <button class="button primary" id="lotteryLockInBtn" type="button" style="margin-top: 16px;">Potvrdit tipovaná čísla</button>
+        </div>
+
+        <div id="lotteryDrawSection" class="lottery-section" style="display: none;">
+          <h3>Vylosovaná čísla</h3>
+          <p class="section-text">Kliknutím na tlačítko níže se vylosují vítězná čísla a porovnají se s vašimi tipy.</p>
+          <button class="button primary" id="lotteryDrawBtn" type="button">Vylosovat vítězná čísla</button>
+        </div>
+
+        <div id="lotteryResultsSection" class="lottery-section" style="display: none;">
+          <div class="lottery-comparison">
+            <div>
+              <h4>Vaše čísla</h4>
+              <div>
+                <p class="input-label">Hlavní čísla:</p>
+                <table class="number-table" id="lotteryYourMainTable"></table>
+              </div>
+              <div>
+                <p class="input-label">Euro čísla:</p>
+                <table class="number-table accent-table" id="lotteryYourEuroTable"></table>
+              </div>
+            </div>
+            <div>
+              <h4>Vítězná čísla</h4>
+              <div>
+                <p class="input-label">Hlavní čísla:</p>
+                <table class="number-table" id="lotteryWinMainTable"></table>
+              </div>
+              <div>
+                <p class="input-label">Euro čísla:</p>
+                <table class="number-table accent-table" id="lotteryWinEuroTable"></table>
+              </div>
+            </div>
+          </div>
+          <div id="lotteryResultMessage" class="lottery-result-message"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- form -->
+    <section class="widget glass-card form-widget category-panel" data-category="form" hidden>
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Registrační formulář</p>
+          <h2>Validace pomocí regulárních výrazů</h2>
+        </div>
+      </div>
+      <form id="registrationForm" novalidate>
+        <div class="field-grid">
+          <label class="form-field">
+            <span>Email</span>
+            <input type="email" name="email" id="emailInput" placeholder="jana@example.cz" autocomplete="email">
+            <small class="field-hint" id="emailHint" data-default="Zadejte platný e-mail.">Zadejte platný e-mail.</small>
+          </label>
+          <label class="form-field">
+            <span>Heslo</span>
+            <input type="password" name="password" id="passwordInput" placeholder="Min. 8 znaků" autocomplete="new-password">
+            <small class="field-hint" id="passwordHint" data-default="Minimálně 8 znaků, velké i malé písmeno, číslice a speciální znak.">Minimálně 8 znaků, velké i malé písmeno, číslice a speciální znak.</small>
+          </label>
+          <label class="form-field wide">
+            <span>Adresa</span>
+            <input type="text" name="address" id="addressInput" placeholder="Ulice 12, Praha" autocomplete="street-address">
+            <small class="field-hint" id="addressHint" data-default="Ulice, číslo a město.">Ulice, číslo a město.</small>
+          </label>
+          <label class="form-field">
+            <span>PSČ</span>
+            <input type="text" name="postalCode" id="postalCodeInput" placeholder="110 00" inputmode="numeric">
+            <small class="field-hint" id="postalCodeHint" data-default="Formát 12345 nebo 123 45.">Formát 12345 nebo 123 45.</small>
+          </label>
+        </div>
+        <div class="form-status" id="formStatus">Formulář čeká na vyplnění.</div>
+        <button class="button primary submit-button" id="submitRegistrationBtn" type="submit" disabled>Odeslat registraci</button>
+      </form>
+    </section>
+
+    <!-- sudoku -->
+    <section class="widget glass-card sudoku-widget category-panel" data-category="sudoku" hidden>
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Sudoku</p>
+          <h2>Sudoku s volbou obtížnosti</h2>
+        </div>
+        <div class="nav-group sudoku-actions">
+          <button class="button tertiary" id="sudokuCheckBtn" type="button">Zkontrolovat</button>
+          <button class="button tertiary" id="sudokuGenerateBtn" type="button">Nové sudoku</button>
+        </div>
+      </div>
+      <div class="sudoku-controls">
+        <div class="sudoku-difficulty-selector" role="group" aria-label="Obtížnost sudoku">
+          <button class="mode-btn sudoku-difficulty-btn is-active" type="button" data-difficulty="easy">Lehká</button>
+          <button class="mode-btn sudoku-difficulty-btn" type="button" data-difficulty="medium">Střední</button>
+          <button class="mode-btn sudoku-difficulty-btn" type="button" data-difficulty="hard">Těžká</button>
+        </div>
+        <p class="sudoku-status" id="sudokuStatus">Vyber obtížnost a doplň chybějící čísla.</p>
+      </div>
+      <div class="sudoku-board" id="sudokuBoard"></div>
+    </section>
+  </main>
+
+  <!-- MAIN JS MODULE ENTRY POINT -->
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>
