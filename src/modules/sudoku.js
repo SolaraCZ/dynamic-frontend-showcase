@@ -130,11 +130,25 @@ function updateStatus() {
   }
 }
 
+function handleFocus(e) {
+  const input = e.target;
+  const cell = input.closest(".sudoku-cell");
+  if (cell) cell.classList.add("is-focused");
+}
+
+function handleBlur(e) {
+  const input = e.target;
+  const cell = input.closest(".sudoku-cell");
+  if (cell) cell.classList.remove("is-focused");
+}
+
 export function initSudoku() {
   renderSudoku(true);
 
   sudokuBoard?.addEventListener("input", handleInput);
   sudokuBoard?.addEventListener("keydown", handleKeydown);
+  sudokuBoard?.addEventListener("focus", handleFocus, true);
+  sudokuBoard?.addEventListener("blur", handleBlur, true);
   
   sudokuGenerateBtn?.addEventListener("click", () => renderSudoku(true));
   
