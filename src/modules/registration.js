@@ -6,14 +6,15 @@ const postalCodeInput = document.getElementById("postalCodeInput");
 const formStatus = document.getElementById("formStatus");
 const submitRegistrationBtn = document.getElementById("submitRegistrationBtn");
 
+import { t } from '../i18n.js';
+
 // Renders the current state of the form, validating each field and updating hints and submit button state
 function renderFormState() {
   if (!registrationForm) return;
-
-  const emailValid = validateField(emailInput, /^\S+@\S+\.\S+$/, "Zadejte platný e-mail.");
+  const emailValid = validateField(emailInput, /^\S+@\S+\.\S+$/, t('form.emailHint'));
   const passwordValid = validateField(passwordInput, /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/, getPasswordValidationMessage);
   const addressValid = validateField(addressInput, isAddressValid, getAddressValidationMessage);
-  const postalCodeValid = validateField(postalCodeInput, /^\d{3}\s?\d{2}$/, "PSČ musí mít formát 12345 nebo 123 45.");
+  const postalCodeValid = validateField(postalCodeInput, /^\d{3}\s?\d{2}$/, t('form.postalPattern'));
 
   const allValid = emailValid && passwordValid && addressValid && postalCodeValid;
   
@@ -23,8 +24,8 @@ function renderFormState() {
 
   if (formStatus) {
     formStatus.textContent = allValid
-      ? "Všechna pole jsou validní a formulář je připravený k odeslání."
-      : "Vyplňte všechny položky. Validace probíhá průběžně při psaní.";
+      ? t('form.statusAllValid')
+      : t('form.statusIncomplete');
   }
 }
 
@@ -44,9 +45,10 @@ function validateField(input, validator, invalidMessage) {
 
   if (hint) {
     if (!value) {
-      hint.textContent = hint.dataset.default || "";
+      const key = hint.getAttribute('data-i18n');
+      hint.textContent = key ? t(key) : (hint.dataset.default || "");
     } else if (isValid) {
-      hint.textContent = "V pořádku.";
+      hint.textContent = t('form.valid');
     } else {
       hint.textContent = typeof invalidMessage === "function" ? invalidMessage(value) : invalidMessage;
     }
@@ -58,13 +60,13 @@ function validateField(input, validator, invalidMessage) {
 // Logic for password validation with detailed feedback on missing criteria
 function getPasswordValidationMessage(value) {
   const missingParts = [];
-  if (value.length < 8) missingParts.push(`alespoň ještě ${8 - value.length} znaků`);
-  if (!/[a-z]/.test(value)) missingParts.push("malé písmeno");
-  if (!/[A-Z]/.test(value)) missingParts.push("velké písmeno");
-  if (!/\d/.test(value)) missingParts.push("číslice");
-  if (!/[^A-Za-z\d]/.test(value)) missingParts.push("speciální znak");
+  if (value.length < 8) missingParts.push(t('form.password.needChars', { n: 8 - value.length }));
+  if (!/[a-z]/.test(value)) missingParts.push(t('form.password.lower'));
+  if (!/[A-Z]/.test(value)) missingParts.push(t('form.password.upper'));
+  if (!/\d/.test(value)) missingParts.push(t('form.password.digit'));
+  if (!/[^A-Za-z\d]/.test(value)) missingParts.push(t('form.password.special'));
 
-  return missingParts.length === 0 ? "V pořádku." : `Chybí: ${missingParts.join(", ")}.`;
+  return missingParts.length === 0 ? t('form.password.ok') : t('form.password.missingPrefix', { list: missingParts.join(', ') });
 }
 
 // Validates the address field with custom logic to check for street name, house number, and city
@@ -74,26 +76,26 @@ function isAddressValid(value) {
 
 function getAddressValidationMessage(value) {
   const issues = getAddressIssues(value);
-  return issues.length === 0 ? "V pořádku." : `Chybí: ${issues.join(", ")}.`;
+  return issues.length === 0 ? t('form.valid') : t('form.missingPrefix', { list: issues.join(', ') });
 }
 
 function getAddressIssues(value) {
   const normalized = value.replace(/\s+/g, " ").trim();
-  if (!normalized) return ["ulice", "číslo domu", "město"];
+  if (!normalized) return [t('form.address.street'), t('form.address.houseNumber'), t('form.address.city')];
 
   const parts = normalized.split(",").map((part) => part.trim()).filter(Boolean);
   const issues = [];
 
   if (parts.length < 2) {
-    issues.push("oddělit adresu čárkou na část s ulicí a část s městem");
+    issues.push(t('form.address.commaAdvice'));
   }
 
   const streetPart = parts[0] || "";
   const cityPart = parts[1] || "";
 
-  if (!/[A-Za-zÁ-ž]/u.test(streetPart)) issues.push("název ulice");
-  if (!/\d/.test(streetPart)) issues.push("číslo domu");
-  if (!/[A-Za-zÁ-ž]{2,}/u.test(cityPart)) issues.push("město");
+  if (!/[A-Za-zÁ-ž]/u.test(streetPart)) issues.push(t('form.address.street'));
+  if (!/\d/.test(streetPart)) issues.push(t('form.address.houseNumber'));
+  if (!/[A-Za-zÁ-ž]{2,}/u.test(cityPart)) issues.push(t('form.address.city'));
 
   return Array.from(new Set(issues));
 }
@@ -109,7 +111,7 @@ export function initRegistration() {
     renderFormState();
     
     const email = emailInput?.value;
-    alert(`Registrace pro email ${email} byla úspěšně zpracována.`);
+    alert(t('form.submitSuccessWithEmail', { email: email || '' }));
   });
   // Initial validation to set the correct state on page load
   renderFormState();

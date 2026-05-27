@@ -1,4 +1,5 @@
 import { drawUniqueNumbers } from '../utils.js';
+import { t } from '../i18n.js';
 
 // DOM elements - number selection
 const lotteryMainInput = document.getElementById("lotteryMainInput");
@@ -142,19 +143,19 @@ function calculateResult(mainCount, euroCount) {
   let cls = "loss";
 
   if (mainCount === 5 && euroCount === 2) {
-    msg = "JACKPOT! Uhodli jste všechna čísla!";
+    msg = t('lottery.result.jackpot');
     cls = "win";
   } else if (mainCount === 5 && euroCount === 1) {
-    msg = "Skvělé! Uhodli jste 5 hlavních a 1 euro číslo!";
+    msg = t('lottery.result.fiveMainOneEuro');
     cls = "win";
   } else if (mainCount === 5) {
-    msg = "Gratulace! Uhodli jste všech 5 hlavních čísel!";
+    msg = t('lottery.result.fiveMain');
     cls = "win";
   } else if (mainCount >= 2 || (mainCount >= 1 && euroCount === 2)) {
-    msg = `Shoda: ${mainCount} hlavní a ${euroCount} euro čísla.`;
+    msg = t('lottery.result.matchSummary', { main: mainCount, euro: euroCount });
     cls = "win";
   } else {
-    msg = `Bohužel, shoda pouze ${mainCount} + ${euroCount}. Zkuste to znovu!`;
+    msg = t('lottery.result.tryAgain', { main: mainCount, euro: euroCount });
     cls = "loss";
   }
 

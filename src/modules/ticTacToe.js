@@ -1,3 +1,5 @@
+import { t } from '../i18n.js';
+
 const ticTacToeBoard = document.getElementById("ticTacToeBoard");
 const ticTacToeStatus = document.getElementById("ticTacToeStatus");
 const ticTacToeResetBtn = document.getElementById("ticTacToeResetBtn");
@@ -72,13 +74,13 @@ function makeBotMove() {
     const winner = getWinner(state);
     if (winner) {
       finished = true;
-      ticTacToeStatus.textContent = `Vyhrává bot (O).`;
+      ticTacToeStatus.textContent = t('tictactoe.botWins');
     } else if (state.every(Boolean)) {
       finished = true;
-      ticTacToeStatus.textContent = "Remíza. Pole je plné.";
+      ticTacToeStatus.textContent = t('tictactoe.draw');
     } else {
       currentPlayer = "X";
-      ticTacToeStatus.textContent = `Na tahu je hráč ${currentPlayer}.`;
+      ticTacToeStatus.textContent = t('tictactoe.statusTurn', { player: currentPlayer });
     }
   }
   
@@ -106,19 +108,19 @@ export function render() {
       const winner = getWinner(state);
       if (winner) {
         finished = true;
-        ticTacToeStatus.textContent = `Vyhrává hráč ${winner}.`;
+        ticTacToeStatus.textContent = t('tictactoe.playerWins', { winner });
       } else if (state.every(Boolean)) {
         finished = true;
-        ticTacToeStatus.textContent = "Remíza. Pole je plné.";
+        ticTacToeStatus.textContent = t('tictactoe.draw');
       } else {
         // Switch player
         currentPlayer = currentPlayer === "X" ? "O" : "X";
-        ticTacToeStatus.textContent = `Na tahu je hráč ${currentPlayer}.`;
+        ticTacToeStatus.textContent = t('tictactoe.statusTurn', { player: currentPlayer });
 
         // If it's bot mode and it's bot's turn, make the bot move after a short delay
         if (mode === "bot" && currentPlayer === "O") {
           botThinking = true;
-          ticTacToeStatus.textContent = "Bot přemýšlí...";
+          ticTacToeStatus.textContent = t('tictactoe.botThinking');
           render(); // rerender to disable buttons while bot is thinking
           setTimeout(makeBotMove, 600);
           return;
@@ -144,7 +146,7 @@ export function initTicTacToe() {
     currentPlayer = "X";
     finished = false;
     botThinking = false;
-    ticTacToeStatus.textContent = `Na tahu je hráč ${currentPlayer}.`;
+    ticTacToeStatus.textContent = t('tictactoe.statusTurn', { player: currentPlayer });
     render();
   });
 
@@ -161,7 +163,7 @@ export function initTicTacToe() {
   });
 
   // First render
-  ticTacToeStatus.textContent = `Na tahu je hráč ${currentPlayer}.`;
+  ticTacToeStatus.textContent = t('tictactoe.statusTurn', { player: currentPlayer });
   updateModeButtons();
   render();
 }

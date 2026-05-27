@@ -13,19 +13,19 @@
 </head>
 <body>
   <!-- nav-->
-  <section class="shell category-switcher glass-card" aria-label="Přepínač kategorií">
-    <button class="category-tab is-active" type="button" data-category-target="gallery">Fotogalerie</button>
-    <button class="category-tab" type="button" data-category-target="calendar">Kalendář</button>
-    <button class="category-tab" type="button" data-category-target="tictactoe">Piškvorky</button>
-    <button class="category-tab" type="button" data-category-target="lottery">EuroJackpot</button>
-    <button class="category-tab" type="button" data-category-target="form">Formulář</button>
-    <button class="category-tab" type="button" data-category-target="sudoku">Sudoku</button>
+  <section class="shell category-switcher glass-card" aria-label="Přepínač kategorií" data-i18n-attr="aria-label:nav.switcher">
+    <button class="category-tab is-active" type="button" data-category-target="gallery" data-i18n="nav.gallery">Fotogalerie</button>
+    <button class="category-tab" type="button" data-category-target="calendar" data-i18n="nav.calendar">Kalendář</button>
+    <button class="category-tab" type="button" data-category-target="tictactoe" data-i18n="nav.tictactoe">Piškvorky</button>
+    <button class="category-tab" type="button" data-category-target="lottery" data-i18n="nav.lottery">EuroJackpot</button>
+    <button class="category-tab" type="button" data-category-target="form" data-i18n="nav.form">Formulář</button>
+    <button class="category-tab" type="button" data-category-target="sudoku" data-i18n="nav.sudoku">Sudoku</button>
     
-    <button id="themeToggleBtn" class="button tertiary theme-toggle-btn" type="button" aria-label="Přepnout motiv" title="Přepnout motiv">
+    <button id="themeToggleBtn" class="button tertiary theme-toggle-btn" type="button" aria-label="Přepnout motiv" title="Přepnout motiv" data-i18n-attr="aria-label:theme.toggle;title:theme.toggle">
       <span id="themeToggleLottie" class="theme-toggle-lottie" aria-hidden="true"></span>
     </button>
     <div class="language-container">
-      <button id="languageBtn" class="button tertiary language-btn" type="button" aria-haspopup="true" aria-expanded="false" title="Jazyk / Language">
+      <button id="languageBtn" class="button tertiary language-btn" type="button" aria-haspopup="true" aria-expanded="false" title="Jazyk / Language" data-i18n-attr="title:nav.language">
         <span id="languageBtnLabel">Česky</span>
       </button>
       <div id="languageDropdown" class="language-dropdown" hidden>
@@ -57,15 +57,15 @@
           <h2 data-i18n="calendar.title">Měsíční přehled</h2>
         </div>
         <div class="nav-group">
-          <button class="icon-button" id="calendarPrevBtn" type="button" aria-label="Předchozí měsíc">←</button>
+          <button class="icon-button" id="calendarPrevBtn" type="button" aria-label="Předchozí měsíc" data-i18n-attr="aria-label:calendar.prevMonth">←</button>
           <button class="button tertiary" id="calendarTodayBtn" type="button" data-i18n="calendar.todayBtn">Dnes</button>
-          <button class="icon-button" id="calendarNextBtn" type="button" aria-label="Další měsíc">→</button>
+          <button class="icon-button" id="calendarNextBtn" type="button" aria-label="Další měsíc" data-i18n-attr="aria-label:calendar.nextMonth">→</button>
         </div>
       </div>
       <div class="calendar-meta">
         <strong id="calendarMonthLabel"></strong>
       </div>
-      <div class="calendar-grid" id="calendarGrid" role="grid" aria-label="Měsíční kalendář"></div>
+      <div class="calendar-grid" id="calendarGrid" role="grid" aria-label="Měsíční kalendář" data-i18n-attr="aria-label:calendar.grid"></div>
     </section>
 
     <!-- tictactoe -->
@@ -107,7 +107,7 @@
               <div class="number-grid" id="lotteryEuroInput"></div>
             </div>
           </div>
-          <button class="button primary" id="lotteryLockInBtn" type="button" style="margin-top: 16px;">Potvrdit tipovaná čísla</button>
+          <button class="button primary" id="lotteryLockInBtn" type="button" style="margin-top: 16px;" data-i18n="lottery.lockInBtn">Potvrdit tipovaná čísla</button>
         </div>
 
         <div id="lotteryDrawSection" class="lottery-section" style="display: none;">
@@ -121,22 +121,22 @@
             <div>
               <h4 data-i18n="lottery.yourTitle">Vaše čísla</h4>
               <div>
-                <p class="input-label">Hlavní čísla:</p>
+                <p class="input-label" data-i18n="lottery.mainLabel">Hlavní čísla:</p>
                 <table class="number-table" id="lotteryYourMainTable"></table>
               </div>
               <div>
-                <p class="input-label">Euro čísla:</p>
+                <p class="input-label" data-i18n="lottery.euroLabel">Euro čísla:</p>
                 <table class="number-table accent-table" id="lotteryYourEuroTable"></table>
               </div>
             </div>
             <div>
               <h4 data-i18n="lottery.winningTitle">Vítězná čísla</h4>
               <div>
-                <p class="input-label">Hlavní čísla:</p>
+                <p class="input-label" data-i18n="lottery.mainLabel">Hlavní čísla:</p>
                 <table class="number-table" id="lotteryWinMainTable"></table>
               </div>
               <div>
-                <p class="input-label">Euro čísla:</p>
+                <p class="input-label" data-i18n="lottery.euroLabel">Euro čísla:</p>
                 <table class="number-table accent-table" id="lotteryWinEuroTable"></table>
               </div>
             </div>
@@ -195,7 +195,7 @@
           </div>
         </div>
       <div class="sudoku-controls">
-        <div class="sudoku-difficulty-selector" role="group" aria-label="Obtížnost sudoku">
+        <div class="sudoku-difficulty-selector" role="group" aria-label="Obtížnost sudoku" data-i18n-attr="aria-label:sudoku.difficultyLabel">
           <button class="mode-btn sudoku-difficulty-btn is-active" type="button" data-difficulty="easy" data-i18n="sudoku.difficulty.easy">Lehká</button>
           <button class="mode-btn sudoku-difficulty-btn" type="button" data-difficulty="medium" data-i18n="sudoku.difficulty.medium">Střední</button>
           <button class="mode-btn sudoku-difficulty-btn" type="button" data-difficulty="hard" data-i18n="sudoku.difficulty.hard">Těžká</button>

@@ -1,4 +1,5 @@
 import { getAssetUrl, shuffleInPlace } from '../utils.js';
+import { getCurrentLang, t } from '../i18n.js';
 
 const galleryPhotos = [
   { title: "img1", src: getAssetUrl("images/img1.jpg") },
@@ -12,10 +13,12 @@ const galleryPhotos = [
 const galleryGrid = document.getElementById("galleryGrid");
 const galleryShuffleBtn = document.getElementById("galleryShuffleBtn");
 
-function buildGalleryWindowHtml(payload, startIndex) {
+function buildGalleryWindowHtml(payload, startIndex, lang) {
   const scriptClose = "</scr" + "ipt>";
+  const htmlLang = (lang === 'cs') ? 'cs' : 'en';
+  const title = t('gallery.title');
   return `<!DOCTYPE html>
-<html lang="cs"><head><meta charset="UTF-8"><title>Galerie</title><style>
+<html lang="${htmlLang}"><head><meta charset="UTF-8"><title>${title}</title><style>
 body { margin: 0; background: #2a2a2a; color: #fff; font-family: sans-serif; display: grid; place-items: center; min-height: 100vh; }
 .frame { padding: 24px; border: 1px solid rgba(255,255,255,0.12); border-radius: 28px; background: #4f4f4f; text-align: center; }
 img { max-width: 80vw; max-height: 68vh; border-radius: 24px; }
@@ -32,7 +35,8 @@ ${scriptClose}</body></html>`;
 function openGalleryWindow(index) {
   const win = window.open("", "galleryWindow", "width=1100,height=820");
   if (!win) return;
-  win.document.write(buildGalleryWindowHtml(galleryPhotos, index));
+  const lang = getCurrentLang();
+  win.document.write(buildGalleryWindowHtml(galleryPhotos, index, lang));
   win.document.close();
 }
 

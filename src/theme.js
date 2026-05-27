@@ -1,3 +1,5 @@
+import { t } from './i18n.js';
+
 let themeToggleAnimation = null;
 let themeToggleAnimationReady = false;
 
@@ -14,8 +16,8 @@ export function applyTheme(theme, options = {}) {
 
   if (theme === "dark") {
     document.body.classList.add("dark-mode");
-    themeToggleBtn?.setAttribute("aria-label", "Přepnout na světlý motiv");
-    themeToggleBtn?.setAttribute("title", "Přepnout na světlý motiv");
+    themeToggleBtn?.setAttribute("aria-label", t('theme.switchToLight'));
+    themeToggleBtn?.setAttribute("title", t('theme.switchToLight'));
     
     if (themeToggleAnimation && themeToggleAnimationReady) {
       // Dark mode segment: 0 -> 14
@@ -26,8 +28,8 @@ export function applyTheme(theme, options = {}) {
     document.documentElement.style.colorScheme = "dark";
   } else {
     document.body.classList.remove("dark-mode");
-    themeToggleBtn?.setAttribute("aria-label", "Přepnout na tmavý motiv");
-    themeToggleBtn?.setAttribute("title", "Přepnout na tmavý motiv");
+    themeToggleBtn?.setAttribute("aria-label", t('theme.switchToDark'));
+    themeToggleBtn?.setAttribute("title", t('theme.switchToDark'));
     
     if (themeToggleAnimation && themeToggleAnimationReady) {
       // Light mode segment: 14 -> 27
@@ -96,5 +98,11 @@ export function initTheme() {
   themeToggleBtn?.addEventListener('click', () => {
     const isDark = document.body.classList.contains('dark-mode');
     applyTheme(isDark ? 'light' : 'dark', { animate: true });
+  });
+
+  // update labels when language changes
+  window.addEventListener('languagechange', () => {
+    const isDark = document.body.classList.contains('dark-mode');
+    applyTheme(isDark ? 'dark' : 'light', { skipStore: true, animate: false });
   });
 }
