@@ -64,3 +64,7 @@ A modern, interactive single-page application showcasing a collection of JavaScr
 - Interactive grid lets you fill in numbers.
 - Highlighting of invalid entries (duplicate in row, column, or 3×3 box).
 - “New Game” button generates a fresh puzzle.
+
+## License
+
+[MIT License](https://github.com/SolaraCZ/dynamic-frontend-showcase/blob/main/LICENSE)
