@@ -1,4 +1,5 @@
 import { startOfDay, addDays, sameDay } from '../utils.js';
+import { getCurrentLang, t } from '../i18n.js';
 
 const calendarGrid = document.getElementById("calendarGrid");
 const calendarMonthLabel = document.getElementById("calendarMonthLabel");
@@ -6,8 +7,8 @@ const calendarPrevBtn = document.getElementById("calendarPrevBtn");
 const calendarNextBtn = document.getElementById("calendarNextBtn");
 const calendarTodayBtn = document.getElementById("calendarTodayBtn");
 
-const monthFormatter = new Intl.DateTimeFormat("cs-CZ", { month: "long", year: "numeric" });
-const dayNameFormatter = new Intl.DateTimeFormat("cs-CZ", { weekday: "short" });
+let monthFormatter = null;
+let dayNameFormatter = null;
 const today = startOfDay(new Date());
 
 let calendarDate = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -16,6 +17,11 @@ let selectedDate = new Date(today);
 export function renderCalendar() {
   if (!calendarGrid) return;
   calendarGrid.innerHTML = "";
+  // update formatters based on current language
+  const lang = getCurrentLang();
+  const locale = (lang === 'cs') ? 'cs-CZ' : 'en-GB';
+  monthFormatter = new Intl.DateTimeFormat(locale, { month: "long", year: "numeric" });
+  dayNameFormatter = new Intl.DateTimeFormat(locale, { weekday: "short" });
   calendarMonthLabel.textContent = monthFormatter.format(calendarDate);
 
   const refMonday = new Date(2021, 2, 1);
@@ -39,7 +45,7 @@ export function renderCalendar() {
     cell.innerHTML = `<span class="day-number">${day.getDate()}</span><div class="day-spot"></div>`;
     
     if (sameDay(day, selectedDate)) {
-      cell.querySelector(".day-spot").textContent = "Vybráno";
+      cell.querySelector(".day-spot").textContent = t('calendar.selected');
       cell.style.background = "var(--surface-soft)";
     }
     cell.onclick = () => { selectedDate = new Date(day); renderCalendar(); };
@@ -49,6 +55,7 @@ export function renderCalendar() {
 
 export function initCalendar() {
   renderCalendar();
+  window.addEventListener('languagechange', () => renderCalendar());
   calendarPrevBtn?.addEventListener("click", () => { calendarDate.setMonth(calendarDate.getMonth() - 1); renderCalendar(); });
   calendarNextBtn?.addEventListener("click", () => { calendarDate.setMonth(calendarDate.getMonth() + 1); renderCalendar(); });
   calendarTodayBtn?.addEventListener("click", () => {

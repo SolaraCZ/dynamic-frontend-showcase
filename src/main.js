@@ -1,4 +1,5 @@
 import { initTheme, initThemeToggleAnimation } from './theme.js';
+import { initI18n } from './i18n.js';
 import { initGallery } from './modules/gallery.js';
 import { initCalendar } from './modules/calendar.js';
 import { initTicTacToe } from './modules/ticTacToe.js';
@@ -17,6 +18,7 @@ function setActiveCategory(target) {
 document.addEventListener("DOMContentLoaded", () => {
   initTheme();
   initThemeToggleAnimation();
+  initI18n();
   initGallery();
   initCalendar();
   initTicTacToe();

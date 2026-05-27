@@ -1,4 +1,5 @@
 import { shuffleArray, shuffleGroupedIndices } from '../utils.js';
+import { t } from '../i18n.js';
 
 // DOM elements
 const sudokuBoard = document.getElementById("sudokuBoard");
@@ -122,11 +123,11 @@ function updateStatus() {
 
   if (hasBeenChecked) {
     const wrong = inputs.filter(i => i.value && i.value !== i.dataset.solution).length;
-    if (empty === 0 && wrong === 0) sudokuStatus.textContent = "Gratulujeme! Sudoku je správně.";
-    else if (wrong > 0) sudokuStatus.textContent = `Máte chybu v ${wrong} ${wrong === 1 ? 'poli' : 'polích'}.`;
-    else sudokuStatus.textContent = `Chybí doplnit ${empty} polí.`;
+    if (empty === 0 && wrong === 0) sudokuStatus.textContent = t('sudoku.success');
+    else if (wrong > 0) sudokuStatus.textContent = wrong === 1 ? t('sudoku.wrongOne') : t('sudoku.wrongMany', { n: wrong });
+    else sudokuStatus.textContent = t('sudoku.missing', { n: empty });
   } else {
-    sudokuStatus.textContent = empty === 0 ? "Hotovo? Klikněte na Zkontrolovat." : `Chybí doplnit ${empty} polí.`;
+    sudokuStatus.textContent = empty === 0 ? t('sudoku.promptCheck') : t('sudoku.missing', { n: empty });
   }
 }
 
@@ -144,6 +145,7 @@ function handleBlur(e) {
 
 export function initSudoku() {
   renderSudoku(true);
+  window.addEventListener('languagechange', () => updateStatus());
 
   sudokuBoard?.addEventListener("input", handleInput);
   sudokuBoard?.addEventListener("keydown", handleKeydown);

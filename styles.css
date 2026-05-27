@@ -59,6 +59,7 @@ img { max-width: 100%; }
   border-radius: 12px;
   background: var(--surface);
   border: 1px solid var(--border);
+  position: relative;
 }
 
 .category-tab {
@@ -127,6 +128,87 @@ body.dark-mode .theme-toggle-lottie svg * {
   fill: #f1f1f1;
   stroke: #f1f1f1;
 }
+
+/* Language selector styled to match other buttons */
+.language-select {
+  -webkit-appearance: none;
+  appearance: none;
+  padding: 0 16px 0 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  font-weight: 700;
+  height: 60px; /* match theme toggle */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 120px;
+  font-size: 0.95rem;
+  position: relative;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23162633' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+  background-repeat: no-repeat;
+  background-position: calc(100% - 12px) center;
+  background-size: 12px;
+}
+
+.category-switcher .language-select {
+  margin-left: 8px;
+  flex: 0 0 auto;
+}
+
+.language-select:hover {
+  background: var(--surface-soft);
+  border-color: #c9d7ee;
+  box-shadow: 0 0 0 1px rgba(47, 91, 234, 0.08), 0 8px 18px rgba(22, 32, 51, 0.08);
+  transform: translateY(-1px);
+}
+
+.language-select::-ms-expand { display: none; }
+
+.language-select option { padding: 8px; }
+
+body.dark-mode .language-select:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(124, 92, 255, 0.35);
+  box-shadow: 0 0 0 1px rgba(124, 92, 255, 0.12), 0 10px 24px rgba(0, 0, 0, 0.22);
+  transform: translateY(-1px);
+}
+
+.language-select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(47,91,234,0.08);
+}
+
+/* Dropdown for language button */
+.language-container { position: relative; display: inline-flex; align-items: center; }
+.language-dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px;
+  min-width: 140px;
+  box-shadow: 0 8px 24px rgba(22,32,51,0.08);
+  display: grid;
+  gap: 6px;
+  z-index: 40;
+}
+.language-dropdown[hidden] { display: none; }
+.language-option {
+  background: none;
+  border: 1px solid transparent;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  font-weight: 700;
+}
+.language-option:hover { background: var(--surface-soft); border-color: #c9d7ee; }
 
 .hero {
   display: grid;
