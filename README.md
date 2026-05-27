@@ -1,5 +1,10 @@
 # Dynamic Frontend Showcase
 
+![HTML5](https://img.shields.io/badge/HTML5-orange.svg)
+![CSS3](https://img.shields.io/badge/CSS3-blue.svg)
+![JavaScript](https://img.shields.io/badge/JavaScript-yellow.svg)
+![ES6 Modules](https://img.shields.io/badge/ES6%20Modules-yellowgreen.svg)
+
 A modern, interactive single-page application showcasing a collection of JavaScript-driven widgets and components.
 
 ## Live Demo
