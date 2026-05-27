@@ -4,6 +4,7 @@ A modern, interactive single-page application showcasing a collection of JavaScr
 
 ## Live Demo
 [link to the webpage](https://solaracz.github.io/dynamic-frontend-showcase/)
+
 ## Features
 - **Photo Gallery**: Open images in a new window with a 1-second auto-slideshow.
 - **Weekly Calendar**: Navigate between weeks with weekends and the current day highlighted.
